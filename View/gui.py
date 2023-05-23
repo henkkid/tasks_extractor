@@ -33,17 +33,6 @@ class gui:
 
         month_cb.pack(fill=tk.X,padx=5, pady=5)
 
-        label = tk.Label(self.root, text="Please select a analyses width in months", font=("Arial"), bg="black", fg="white")
-        label.pack(fill=tk.X,padx=5, pady=5)
-
-        selected_analyses_width = tk.StringVar()
-        analyses_width_cb = ttk.Combobox(self.root, textvariable=selected_analyses_width)
-        analyses_width_cb["values"] = [1,2,3,4]
-        analyses_width_cb.current(0)
-        analyses_width_cb['state'] = 'readonly'
-
-        analyses_width_cb.pack(fill=tk.X,padx=5, pady=5)
-
         label = tk.Label(self.root, text="Please select a department", font=("Arial"), bg="black", fg="white")
         label.pack(fill=tk.X,padx=5, pady=5)
 
@@ -59,13 +48,13 @@ class gui:
 
         department_cb.pack(fill=tk.X,padx=5, pady=5)
 
-        button = tk.Button(self.root, text="Generate Excel", command=lambda: self.extractData(selected_month.get(), selected_department.get(), selected_analyses_width.get()))
+        button = tk.Button(self.root, text="Generate Excel", command=lambda: self.extractData(selected_month.get(), selected_department.get()))
         button.pack(fill=tk.X,padx=5, pady=5)
 
-    def extractData(self, month, department, analyes_width):
+    def extractData(self, month, department):
         self.DataController.setMonth(month)
         self.DataController.setDepartment(department)
-        self.DataController.setAnalysesWidth(analyes_width)
+        
         
         if self.DataController.generateExcel():
             showinfo(

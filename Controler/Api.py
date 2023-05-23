@@ -20,6 +20,7 @@ class ApiControler:
 
         data = response.json()['data']
         meta = response.json()['meta']
+      
 
         if meta['last_page'] > 1:
             lastPage = meta['last_page']
@@ -29,9 +30,26 @@ class ApiControler:
                 requestUrl = self.Auth.getAPIBaseUrl() + '/tasks?filter[reference_id]='+ str(departmentId) +'&filter[task_sprint]='+ str(sprintId) + '&include=employee,project,reference,type,status,priority,sprint,events&page='+ str(i)
                 response = requests.get(requestUrl,  headers=self.DefaultHeaders)
                 data.extend(response.json()['data'])
-        
+                i += 1
 
         
         return data
 
+    def getTaskswithCreateDateAfter(self, Date, departmentId):
+        requestUrl = self.Auth.getAPIBaseUrl() + '/tasks?filter[createdate_after]='+ str(Date) + '&filter[reference_id]='+ str(departmentId) + '&include=employee,project,reference,type,status,priority,sprint,events'
+        response = requests.get(requestUrl, headers=self.DefaultHeaders)
+
+        data = response.json()['data']
+        meta = response.json()['meta']
+
+        if meta['last_page'] > 1:
+            lastPage = meta['last_page']
+
+            i = 2
+            while i <= lastPage:
+                requestUrl = self.Auth.getAPIBaseUrl() + '/tasks?filter[createdate_after]='+ str(Date) + '&include=employee,project,reference,type,status,priority,sprint,events&page='+ str(i)
+                response = requests.get(requestUrl, headers=self.DefaultHeaders)
+                data.extend(response.json()['data'])
+                i += 1
+        return data
     

@@ -1,5 +1,5 @@
-from Controller.ApiAuthentication import ApiAuthentication
-from Controller.DataController import DataControler
+from Controler.ApiAuthentication import ApiAuthentication
+from Controler.DataController import DataControler
 from View.gui import gui
 from Model.AppContext import AppContext
 

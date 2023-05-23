@@ -15,8 +15,8 @@ class ApiAuthentication:
             
     config = {
         "apiurl": 'https://portal.everyoffice.nl/api',
-        'username': "Takenrapportage",
-        'password': 'Z5Zz2myC7Wde3_93',
+        'username': "",
+        'password': '',
     }
 
     session = {
@@ -36,7 +36,7 @@ class ApiAuthentication:
             return False
 
     def getSession(self):
-        if Path('./session.json').is_file():
+        if Path('./session.json').is_file(): 
             with open('session.json', 'r') as f:
                 session = json.load(f)
             return session
@@ -45,6 +45,19 @@ class ApiAuthentication:
                 'token': '',
                 'expires':''
             }
+        
+    def getCredentials(self):
+        if Path('./credentials.json').is_file():
+            with open('credentials.json', 'r') as f:
+                credentials = json.load(f)
+            return credentials
+        
+    def create_config(self):
+        credentials = self.getCredentials()
+
+        self.config['apiurl'] = credentials['apiurl']
+        self.config['username'] = credentials['username']
+        self.config['password'] = credentials['password']
 
 
     def writeSession(self, session):
@@ -52,6 +65,8 @@ class ApiAuthentication:
             json.dump(session, f)
 
     def login(self):
+        self.create_config()
+        
         requestURL = self.config['apiurl'] + '/auth/login'
         requestBody = {
             "user": self.config['username'],

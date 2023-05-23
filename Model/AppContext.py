@@ -1,5 +1,5 @@
-from Controller.Api import ApiControler
-from Controller.ApiAuthentication import ApiAuthentication
+from Controler.Api import ApiControler
+from Controler.ApiAuthentication import ApiAuthentication
 from Model.SprintList import SprintList
 
 

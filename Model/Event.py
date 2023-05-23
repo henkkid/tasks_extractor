@@ -2,6 +2,7 @@ from datetime import datetime
 
 class Event:
 
+    task_id = None
     event_id = None
     event_start_date = None
     event_end_date = None
@@ -14,33 +15,10 @@ class Event:
         self.sprintlist = context.SprintList
         
     
-    def json_to_event(self, json):
-        
-        if json is None:
-            return False
-        else:
-            event_atributes =[
-                ('event_id', int),
-                ('event_start_date', str),
-                ('event_end_date', str),
-                ('event_name', str)
-            ]
-        
-            for attribute_name, type_converter in event_atributes:
-                try:
-                    attribute_value = json.get(attribute_name)
-                    if attribute_value is not None:
-                        setattr(self, attribute_name, type_converter(attribute_value))
-                    else:
-                        setattr(self, attribute_name, None)
-                except(ValueError, TypeError):
-                    setattr(self, attribute_name, None)
-            
+    def compute_other_values(self):
             self.format_data()
             self.get_sprint()
             self.calculate_time_in_minutes()
-            
-        return True
     
     def calculate_time_in_minutes(self):
         self.time_in_minutes = (self.event_end_date - self.event_start_date).total_seconds() / 60
@@ -57,4 +35,4 @@ class Event:
         
 
     def __str__(self):
-        return f'Event: {self.event_name} - {self.event_start_date} - {self.event_end_date} - {self.time_in_minutes} - {self.sprint}'
+        return f'Event: {self.event_name} - {self.event_start_date} - {self.event_end_date} - {self.time_in_minutes} - {self.sprint} - Task_Id: {self.task_id}'
